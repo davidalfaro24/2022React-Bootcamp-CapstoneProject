@@ -1,19 +1,28 @@
 import logo from './logo.svg';
 import './App.css';
 import { useFeaturedBanners } from './utils/hooks/useFeaturedBanners';
-import { Fragment } from 'react';
-import Header from './components/layout/Header';
-import HomePage from './pages/HomePage';
 
 function App() {
   const { data, isLoading } = useFeaturedBanners();
   console.log(data, isLoading);
 
   return (
-    <Fragment>
-      <Header/>
-      <HomePage/>
-    </Fragment>
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
   );
 }
 
