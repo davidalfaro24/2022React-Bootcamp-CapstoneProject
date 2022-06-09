@@ -1,0 +1,30 @@
+.home{
+    display: block;
+    align-items: center;
+    justify-content: center; 
+    background-color: #f5f5f5;
+    background-position: center;
+    background-size: cover;
+    padding-top: 4rem;
+    padding-bottom: 5rem;
+}
+.category{
+    display: block;
+    align-items: center;
+    justify-content: center; 
+    background-color: #f5f5f5;
+    background-position: center;
+    background-size: cover;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+.products{
+    display: block;
+    align-items: center;
+    justify-content: center; 
+    background-color: #f5f5f5;
+    background-position: center;
+    background-size: cover;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
