@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage';
 import { Route, Switch } from 'react-router-dom';
 import { Fragment } from 'react';
 import Footer from './components/layout/Footer';
+import AllProducts from './pages/AllProducts';
 
 function App() {
   const { data, isLoading } = useFeaturedBanners();
@@ -13,13 +14,15 @@ function App() {
     <Fragment>
       <NavBarCustom />
       <Switch>
-        <Route path='*' >
+        <Route path='/' exact>
           <HomePage />
         </Route>
         <Route path='/HomePage' >
           <HomePage />
         </Route>
-
+        <Route path='/allProducts'>
+          <AllProducts/>
+        </Route>
       </Switch>
       <Footer/>
     </Fragment>
