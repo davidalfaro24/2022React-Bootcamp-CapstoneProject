@@ -1,8 +1,6 @@
 import { Carousel } from 'react-bootstrap'
 
-
 const SliderBanners = ({ data }) => {
-    
     return (
         <Carousel>
             {data.results.map((productBan) => (
@@ -19,9 +17,7 @@ const SliderBanners = ({ data }) => {
                 </Carousel.Item>
             ))}
         </Carousel>
-
     )
 }
-
 
 export default SliderBanners
