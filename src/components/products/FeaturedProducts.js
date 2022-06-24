@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
-import { H1Heading, H1Span} from '../styles/CategoryBanner.styles'
-import { ContainerGrid, GridBox, Image } from '../styles/FeatureProd.styles'
+import { Link } from 'react-router-dom';
+import { H1Heading, H1Span } from '../styles/CategoryBanner.styles'
+import { ContainerGrid, GridBox, Image, CardProduct } from '../styles/FeatureProd.styles'
 
 const FeaturedProducts = ({ data }) => {
     return (
@@ -12,9 +13,11 @@ const FeaturedProducts = ({ data }) => {
             <ContainerGrid>
                 {data.map((product) => (
                     <GridBox key={product.id}>
-                        <Image src={product.data.mainimage.url} alt={product.data.mainimage.alt} />
-                        <h3>{`${product.data.name} $${product.data.price}`}</h3>
-                        <p>{product.data.category.slug}</p>
+                        <CardProduct to={`/product/${product.id}`}>
+                            <Image src={product.data.mainimage.url} alt={product.data.mainimage.alt} />
+                            <h3>{`${product.data.name} $${product.data.price}`}</h3>
+                            <p>{product.data.category.slug}</p>
+                        </CardProduct>
                     </GridBox>
                 ))}
             </ContainerGrid>

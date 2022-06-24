@@ -18,15 +18,15 @@ const NavBarCustom = () => {
 
     return (
         <header className={classes.header}>
-            <Link to='/HomePage'>
+            <Link to='/home'>
                 <div className={classes.logo}><h1><i className='fa fa-tree' /> Wood Home</h1> </div>
             </Link>
             <nav className={`${classes.navbar} ${responsive && classes.responsive}`} id='navBar'>
                 <a href="/" className={classes.icon} onClick={showMenuResponsive}>
                     <i className='fa fa-bars' />
                 </a>
-                <NavLink to="/HomePage" activeClassName={classes.active}><i className='fa fa-home' /> Home</NavLink>
-                <NavLink to="/allProducts" activeClassName={classes.active}><i className='fa fa-list-alt' /> Product List</NavLink>
+                <NavLink to="/home" activeClassName={classes.active}><i className='fa fa-home' /> Home</NavLink>
+                <NavLink to="/products" activeClassName={classes.active}><i className='fa fa-list-alt' /> Product List</NavLink>
                 <NavLink to="#C"><i className='fa fa-shopping-cart' /> Cart</NavLink>
                 <form className={classes['search-form']}>
                     <input type="text" name="search" id='search-box' placeholder="Search" />

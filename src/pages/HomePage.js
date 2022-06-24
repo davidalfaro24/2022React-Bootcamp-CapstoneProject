@@ -4,28 +4,33 @@ import SliderBanners from '../components/products/SliderBanners';
 import CategoryBanner from '../components/products/CategoryBanner';
 import { Fragment } from 'react';
 import FeaturedProducts from '../components/products/FeaturedProducts';
-import featuredBanner from '../mocks/en-us/featured-banners.json';
-import productCategory from '../mocks/en-us/product-categories.json';
-import featuredproductList from '../mocks/en-us/featured-products.json'
 import { AllProductsPage, DivButtonCentral } from '../components/styles/FeatureProd.styles';
+import { TextAlignItems } from "../components/styles/SideBar.styles";
+import { LoadingState } from "../components/styles/LoadingState.styles";
 
-const HomePage = () => {
+const HomePage = (props) => {
+    console.log(props.featuredProducts)
+    console.log(props.featuredBanners)
     return (
         <Fragment>
-            <section className={classes.home}>
-                <SliderBanners data={featuredBanner} />
-            </section>
-            <section className={classes.category}>
-                <CategoryBanner data={productCategory} />
-            </section>
-            <section className={classes.products}>
-                <FeaturedProducts data={featuredproductList.results} />
-            </section>
-            <section className={classes.btn}>
-                <DivButtonCentral>
-                    <AllProductsPage className='btn' to={`/allProducts`}>View all products</AllProductsPage>
-                </DivButtonCentral>
-            </section>
+            {props.isLoadingPage ? (<TextAlignItems>
+                <LoadingState><h4>Loading ...</h4></LoadingState>
+            </TextAlignItems>) : <>
+                <section className={classes.home}>
+                    <SliderBanners data={props.featuredBanners} />
+                </section>
+                <section className={classes.category}>
+                    <CategoryBanner data={props.categories} />
+                </section>
+                <section className={classes.products}>
+                    <FeaturedProducts data={props.featuredProducts.results} />
+                </section>
+                <section className={classes.btn}>
+                    <DivButtonCentral>
+                        <AllProductsPage className='btn' to={`/products`}>View all products</AllProductsPage>
+                    </DivButtonCentral>
+                </section>
+            </>}
         </Fragment>
     )
 }

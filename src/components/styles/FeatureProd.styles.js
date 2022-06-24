@@ -56,6 +56,10 @@ const AllProductsPage = styledComponents(Link)`
         margin-left:45%;
     }
 `
+const CardProduct = styledComponents(Link)`
+    text-decoration:none;
+    color:black;
+`
 
 
-export {ContainerGrid, GridBox, Image,AllProductsPage, DivButtonCentral}
+export {ContainerGrid, GridBox, Image,AllProductsPage, DivButtonCentral, CardProduct}

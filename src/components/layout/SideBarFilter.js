@@ -2,6 +2,8 @@
 import { DivWrapper, FilterBy, ContainerFilter, RemoveFilterBTN } from "../styles/SideBar.styles";
 
 const SideBarFilter = (props) => {
+    console.log(props.activeCategories)
+    console.log(typeof(props.activeCategories))
     return (
         <>
             <DivWrapper>
