@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import styledComponents from "styled-components";
 
 const DivWrapper = styledComponents.div`
@@ -89,16 +88,23 @@ const PaginationContainer = styledComponents.div`
         padding-left: 10%;
     }
 `
-const PaginationLink = styledComponents(Link)`
+const PaginationLink = styledComponents.button`
     color: black;
     float: left;
     padding: 8px 16px;
     text-decoration: none;
     border: 1px solid #ddd;
 `
+const PaginationLinkActive = styledComponents.button`
+    background-color:#6d3c11;
+    color: #fff;
+    float: left;
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+`
 const TextAlignItems = styledComponents.div`
     text-align:center;
 `
 
-export { DivWrapper, FilterBy, CheckBoxFilter, ContainerFilter, 
+export { DivWrapper, FilterBy, CheckBoxFilter, ContainerFilter, PaginationLinkActive,
         CheckMark, RemoveFilterBTN, PaginationContainer, PaginationLink, TextAlignItems }

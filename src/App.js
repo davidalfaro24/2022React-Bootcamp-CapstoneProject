@@ -7,38 +7,22 @@ import Footer from './components/layout/Footer';
 import AllProducts from './pages/AllProducts';
 import { useCategoryBanner } from './utils/hooks/useCategoryBanner';
 import { useFeaturedProducts } from './utils/hooks/useFeaturedProducts';
-import { useProductsFiltered } from './utils/hooks/useProductsFiltered';
-
-import banners from './mocks/en-us/featured-banners.json'
-import categories from './mocks/en-us/product-categories.json'
-import productsFe from './mocks/en-us/featured-products.json'
-import productsTodos from './mocks/en-us/products.json'
 import ProductDetail from './pages/ProductDetail';
+import SearchPage from './pages/SearchPage';
 
 function App() {
   const [isLoadingPage, setIsLoadingPage] = useState(true);
   const { data, isLoading } = useFeaturedBanners();
   const { dataCategories, isLoadingCategories} = useCategoryBanner();
   const { dataFeaturedProducts, isLoadingfeaturedProducts } = useFeaturedProducts();
-  const { dataProductsFiltered, isLoadingProductsFiltered} = useProductsFiltered();
   
   useEffect(() => {
-    // if (!isLoading && !isLoadingCategories ) {
-    //   setIsLoadingPage(false);
-    // }
     if (!isLoading && !isLoadingCategories && !isLoadingfeaturedProducts) {
       setIsLoadingPage(false);
     } 
-    // else if (!isLoadingCategories && !isLoadingProductsFiltered) {
-    //   setIsLoadingPage(false);
-    // }
   }, 
   [isLoading, isLoadingCategories, isLoadingfeaturedProducts ])
-  //[isLoading, isLoadingCategories, isLoadingfeaturedProducts])
-  // console.log('En APP')
-  // console.log(data)
-  // console.log(isLoading);
-  //isLoadingPage={isLoadingPage}
+
   return (
     <Fragment>
       <NavBarCustom />
@@ -51,11 +35,13 @@ function App() {
             categories={dataCategories} featuredProducts={dataFeaturedProducts}/>
         </Route>
         <Route path='/products'>
-          <AllProducts isLoadingPage={isLoadingPage} categories={dataCategories} 
-            dataProductsFiltered={dataProductsFiltered} />
+          <AllProducts />
         </Route>
         <Route path='/product/:productId'>
           <ProductDetail/>
+        </Route>
+        <Route path='/search'>
+          <SearchPage />
         </Route>
       </Switch>
       <Footer/>

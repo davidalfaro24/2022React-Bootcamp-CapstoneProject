@@ -1,8 +1,6 @@
-/* eslint-disable max-len */
+
 import SideBarFilter from "../components/layout/SideBarFilter"
 import FeaturedProducts from "../components/products/FeaturedProducts"
-import productsDB from '../mocks/en-us/products.json'
-//import productCategory from '../mocks/en-us/product-categories.json';
 import { useEffect, useState } from "react";
 import Pagination from "../components/layout/Pagination";
 import { TextAlignItems } from "../components/styles/SideBar.styles";
@@ -11,34 +9,48 @@ import { useCategoryBanner } from "../utils/hooks/useCategoryBanner";
 import { useProductsFiltered } from "../utils/hooks/useProductsFiltered";
 import { useHistory, useLocation } from "react-router-dom";
 
-//import cat from '../mocks/en-us/product-categories.json'
-//import cat from './mocks/en-us/product-categories.json'
-
 
 const AllProducts = () => {
     const history = useHistory();
-    const location = useLocation()
+    const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const categoryQueryParams = searchParams.get('category')
-
-    const { dataCategories, isLoadingCategories} = useCategoryBanner();
-    //retornamos los 12 productos por pagina y el data filter
-    const { productsFiltered, setProductsFiltered } = useProductsFiltered();
-
-    // const [filterCategories, setFilterCategories] = useState(productsFiltered.dataProductsFiltered);
-    // const [products, setProducts] = useState(productsFiltered.results);
+    const [filterCategories, setFilterCategories] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
-    console.log('filtros y luego results')
-    console.log(productsFiltered.datafilterCategories)
-    console.log(productsFiltered.dataProductsFiltered)
+    const { dataCategories, isLoadingCategories} = useCategoryBanner();
+    const { dataFeaturedProducts, isLoadingfeaturedProducts } = 
+            useProductsFiltered(filterCategories, currentPage);
+    
+    const [products, setProducts] = useState(dataFeaturedProducts.results);
 
     const handleFilter = (category) => {
         if (categoryQueryParams === null) {
+            setCurrentPage(1);
+            setFilterCategories([...filterCategories, category]);
+            setProducts(dataFeaturedProducts.results.filter(product => (
+                product.data.category.id === category || 
+                filterCategories.includes(product.data.category.id)
+            )))
             history.push('/products?category=' + category);
-            //setProductsFiltered({...productsFiltered, datafilterCategories:category})
         } else if (!categoryQueryParams.includes(category)) {
+            setCurrentPage(1);
+            setFilterCategories([...filterCategories, category]);
+            setProducts(dataFeaturedProducts.results.filter(product => (
+                product.data.category.id === category || 
+                filterCategories.includes(product.data.category.id)
+            )))
             history.push(location.pathname + location.search + '_' + category);
         } else {
+            setCurrentPage(1);
+            setFilterCategories(filterCategories.filter(item => item !== category))
+            setProducts(dataFeaturedProducts.results.filter(product => (
+                product.data.category.id !== category && 
+                filterCategories.includes(product.data.category.id)
+            )))
+            if (filterCategories.length === 1) {
+                setProducts(dataFeaturedProducts.results);
+            }
             let categoryURL = categoryQueryParams.split('_');
             let categoryRemoved = categoryURL.filter((id) =>  id !== category )
             if (categoryRemoved.length > 0) {
@@ -46,33 +58,29 @@ const AllProducts = () => {
             } else {
                 history.push('/products')
             }
+
         }
-        // if (!filterCategories.includes(category)) {
-        //     getProductsFiltered([...filterCategories, category])
-        //     setFilterCategories([...filterCategories, category]);
-        //     setProducts(productsDB.results.filter(product => (product.data.category.id === category || filterCategories.includes(product.data.category.id))))
-        // } else {
-        //     setFilterCategories(filterCategories.filter(item => item !== category))
-        //     getProductsFiltered(filterCategories.filter(item => item !== category))
-        //     setProducts(productsDB.results.filter(product => (product.data.category.id !== category && filterCategories.includes(product.data.category.id))))
-        //     if (filterCategories.length === 1) {
-        //         setProducts(productsDB.results);
-        //         getProductsFiltered();
-        //     }
-        // }
     }
     const removeFilter = () => {
-        // setFilterCategories([]);
-        // setProducts(productsFiltered.dataProductsFiltered.results);
-        // getProductsFiltered();
+        setCurrentPage(1);
+        setFilterCategories([]);
+        setProducts(dataFeaturedProducts.results);
+        history.push('/products')
     }
 
     useEffect(() => {
-        if( !isLoadingCategories && !productsFiltered.isLoadingProductsFiltered ){
+        if( !isLoadingCategories && !isLoadingfeaturedProducts ){
             setIsLoading(false)
+            setProducts(dataFeaturedProducts.results)
         }
-    }, [isLoadingCategories, productsFiltered.isLoadingProductsFiltered ])
-    
+    }, [isLoadingCategories, isLoadingfeaturedProducts, dataFeaturedProducts.results ])
+
+    useEffect(() => {
+        if (categoryQueryParams) {
+            let categoryURL = categoryQueryParams.split('_');
+            setFilterCategories(categoryURL)
+        }
+    }, [])
 
     return (
         <>
@@ -82,10 +90,12 @@ const AllProducts = () => {
                 </TextAlignItems>
             ) : (
                 <>
-                    <SideBarFilter categories={dataCategories} handleFilter={handleFilter} activeCategories={productsFiltered.datafilterCategories} removeFilter={removeFilter} />
+                    <SideBarFilter categories={dataCategories} handleFilter={handleFilter} 
+                            activeCategories={filterCategories} removeFilter={removeFilter} />
                     <TextAlignItems>
-                        <FeaturedProducts data={productsFiltered.dataProductsFiltered.results} />
-                        <Pagination />
+                        <FeaturedProducts data={products} />
+                        <Pagination data={dataFeaturedProducts} resultSize={12}
+                            setCurrentPage={setCurrentPage} currentPage={currentPage}/>
                     </TextAlignItems>
                 </>)}
         </>

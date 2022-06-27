@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { API_BASE_URL } from '../constants';
 import { useLatestAPI } from './useLatestAPI';
 
-export function useProductsFiltered(filters, currentPage) {
+export function useSearch(search, currentPage) {
     const { ref: apiRef, isLoading: isApiMetadataLoading } = useLatestAPI();
-    const [featuredProducts, setfeaturedProducts] = useState(() => ({
-        dataFeaturedProducts: {},
-        isLoadingfeaturedProducts: true,
+    const [searchFound, setSearchFound] = useState(() => ({
+        dataSearch: {},
+        isLoadingSearch: true,
     }));
 
     useEffect(() => {
@@ -18,22 +18,21 @@ export function useProductsFiltered(filters, currentPage) {
 
         async function getFeaturedProducts() {
             try {
-                setfeaturedProducts({ dataFeaturedProducts: {}, isLoadingfeaturedProducts: true });
+                setSearchFound({ dataSearch: {}, isLoadingSearch: true });
                 
                 const response = await fetch(
                     `${API_BASE_URL}/documents/search?ref=${apiRef}&q=${encodeURIComponent(
-                        `[[at(document.type, "product")][any(my.product.category,${
-                            JSON.stringify(filters)})]]`
-                    )}&lang=en-us&pageSize=12&page=${Number(currentPage)}`,
+                        `[[at(document.type, "product")][fulltext(document, "${search}")]]`
+                    )}&lang=en-us&pageSize=20&page=${currentPage}`,
                     {
                         signal: controller.signal,
                     }
                 );
-                const dataFeaturedProducts = await response.json();
+                const dataSearch = await response.json();
                 
-                setfeaturedProducts({ dataFeaturedProducts, isLoadingfeaturedProducts: false });
+                setSearchFound({ dataSearch, isLoadingfeaturedProducts: false });
             } catch (err) {
-                setfeaturedProducts({ dataFeaturedProducts: {}, isLoadingfeaturedProducts: false });
+                setSearchFound({ dataSearch: {}, isLoadingfeaturedProducts: false });
                 console.error(err);
             }
         }
@@ -43,7 +42,7 @@ export function useProductsFiltered(filters, currentPage) {
         return () => {
             controller.abort();
         };
-    }, [apiRef, isApiMetadataLoading, filters, currentPage]);
+    }, [apiRef, isApiMetadataLoading, search, currentPage]);
     
-    return featuredProducts;
+    return searchFound;
 }

@@ -29,7 +29,7 @@ export function useFeaturedProducts() {
                     }
                 );
                 const dataFeaturedProducts = await response.json();
-                console.log(`Dentro del Fetch ${dataFeaturedProducts}`)
+                
                 setfeaturedProducts({ dataFeaturedProducts, isLoadingfeaturedProducts: false });
             } catch (err) {
                 setfeaturedProducts({ dataFeaturedProducts: {}, isLoadingfeaturedProducts: false });
@@ -43,7 +43,5 @@ export function useFeaturedProducts() {
             controller.abort();
         };
     }, [apiRef, isApiMetadataLoading]);
-    console.log('En useFeaturedProducts')
-    console.log(featuredProducts)
     return featuredProducts;
 }

@@ -60,6 +60,15 @@ const CardProduct = styledComponents(Link)`
     text-decoration:none;
     color:black;
 `
+const ButtonContainer = styledComponents.div`
+    margin-bottom:2rem;
+`
+const ProductContainer = styledComponents.div`
+    height: 88%;
+`
+const ProductFeaturedContainer = styledComponents.div`
+    height: 82%;
+`
 
-
-export {ContainerGrid, GridBox, Image,AllProductsPage, DivButtonCentral, CardProduct}
+export {ContainerGrid, GridBox, Image,AllProductsPage, CardProduct,
+    DivButtonCentral,ButtonContainer,ProductContainer,ProductFeaturedContainer}

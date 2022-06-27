@@ -1,5 +1,4 @@
-/* eslint-disable max-len */
-import classes from './HomePage.module.css'
+import classes from '../components/styles/HomePage.module.css'
 import SliderBanners from '../components/products/SliderBanners';
 import CategoryBanner from '../components/products/CategoryBanner';
 import { Fragment } from 'react';
@@ -9,8 +8,6 @@ import { TextAlignItems } from "../components/styles/SideBar.styles";
 import { LoadingState } from "../components/styles/LoadingState.styles";
 
 const HomePage = (props) => {
-    console.log(props.featuredProducts)
-    console.log(props.featuredBanners)
     return (
         <Fragment>
             {props.isLoadingPage ? (<TextAlignItems>
@@ -27,7 +24,9 @@ const HomePage = (props) => {
                 </section>
                 <section className={classes.btn}>
                     <DivButtonCentral>
-                        <AllProductsPage className='btn' to={`/products`}>View all products</AllProductsPage>
+                        <AllProductsPage className='btn' to={`/products`}>
+                            View all products
+                        </AllProductsPage>
                     </DivButtonCentral>
                 </section>
             </>}

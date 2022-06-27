@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { Fragment } from "react";
 import Carousels from "react-elastic-carousel";
 import { H1Heading, H1Span, CardCarousel, Caption, Image} from '../styles/CategoryBanner.styles'
@@ -19,16 +18,15 @@ const CategoryBanner = ({ data }) => {
             </H1Heading>
             <Carousels breakPoints={breakPoints}>
                 {data.results.map((category) => (
-                    <CardCarousel key={category.id} >
+                    <CardCarousel key={category.id} to={`/products?category=${category.id}`}>
                         <Caption>{category.data.name}</Caption>
-                        <Image src={category.data.main_image.url} alt={category.data.main_image.alt} />
+                        <Image src={category.data.main_image.url} 
+                            alt={category.data.main_image.alt} />
                     </CardCarousel>
                 ))}
             </Carousels>
         </Fragment>
     )
 }
-
-
 
 export default CategoryBanner

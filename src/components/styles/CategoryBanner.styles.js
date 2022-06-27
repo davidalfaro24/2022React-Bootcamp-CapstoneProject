@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
 import styledComponents from "styled-components";
 
-const CardCarousel = styledComponents.div`
+const CardCarousel = styledComponents(Link)`
     position:relative
     display: inline-block;
     overflow:hidden;
@@ -14,7 +15,21 @@ const CardCarousel = styledComponents.div`
     @media (max-width: 1200px) {
         max-width: 100%;
     }
-    
+`
+const CardSimpleCarousel = styledComponents.div`
+    position:relative
+    display: inline-block;
+    overflow:hidden;
+    justify-content: center;
+    align-items: center;
+    height: 22rem;
+    width: 100%;
+    color: black;
+    margin: 1rem 1rem;
+    font-size: 4em;
+    @media (max-width: 1200px) {
+        max-width: 100%;
+    }
 `
 const Image = styledComponents.img`
     object-fit: cover;
@@ -49,4 +64,4 @@ const H1Span = styledComponents.span`
     clip-path: polygon(100% 0, 93% 50%, 100% 99%, 0% 100%, 7% 50%, 0% 0%);
 `
 
-export { CardCarousel, Image, Caption, H1Heading, H1Span};
+export { CardCarousel, Image, Caption, H1Heading, H1Span,CardSimpleCarousel};
