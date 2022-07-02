@@ -2,26 +2,46 @@ import { useFeaturedBanners } from './utils/hooks/useFeaturedBanners';
 import NavBarCustom from './components/layout/NavBarCustom';
 import HomePage from './pages/HomePage';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { Fragment } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import Footer from './components/layout/Footer';
 import AllProducts from './pages/AllProducts';
+import { useCategoryBanner } from './utils/hooks/useCategoryBanner';
+import { useFeaturedProducts } from './utils/hooks/useFeaturedProducts';
+import ProductDetail from './pages/ProductDetail';
+import SearchPage from './pages/SearchPage';
 
 function App() {
+  const [isLoadingPage, setIsLoadingPage] = useState(true);
   const { data, isLoading } = useFeaturedBanners();
-  console.log(data, isLoading);
+  const { dataCategories, isLoadingCategories} = useCategoryBanner();
+  const { dataFeaturedProducts, isLoadingfeaturedProducts } = useFeaturedProducts();
+  
+  useEffect(() => {
+    if (!isLoading && !isLoadingCategories && !isLoadingfeaturedProducts) {
+      setIsLoadingPage(false);
+    } 
+  }, 
+  [isLoading, isLoadingCategories, isLoadingfeaturedProducts ])
 
   return (
     <Fragment>
       <NavBarCustom />
       <Switch>
         <Route path='/' exact>
-          <Redirect to='/HomePage'/>
+          <Redirect to='/home'/>
         </Route>
-        <Route path='/HomePage' >
-          <HomePage />
+        <Route path='/home' >
+          <HomePage featuredBanners={data} isLoadingPage={isLoadingPage}
+            categories={dataCategories} featuredProducts={dataFeaturedProducts}/>
         </Route>
-        <Route path='/allProducts'>
-          <AllProducts/>
+        <Route path='/products'>
+          <AllProducts />
+        </Route>
+        <Route path='/product/:productId'>
+          <ProductDetail/>
+        </Route>
+        <Route path='/search'>
+          <SearchPage />
         </Route>
       </Switch>
       <Footer/>

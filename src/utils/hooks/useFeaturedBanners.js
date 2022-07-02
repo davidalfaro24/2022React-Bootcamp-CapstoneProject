@@ -29,7 +29,7 @@ export function useFeaturedBanners() {
           }
         );
         const data = await response.json();
-
+        
         setFeaturedBanners({ data, isLoading: false });
       } catch (err) {
         setFeaturedBanners({ data: {}, isLoading: false });
