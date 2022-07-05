@@ -1,5 +1,4 @@
-import { useContext } from 'react';
-import { useState } from 'react';
+import { useContext, useEffect,useState } from 'react';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import { CartContext } from '../store/CartContext';
 import classes from './NavBarCustom.module.css'
@@ -7,6 +6,7 @@ import classes from './NavBarCustom.module.css'
 const NavBarCustom = () => {
     const history = useHistory();
     const [responsive, setResponsive] = useState('');
+    const [totalItems, setTotalItems] = useState(0)
     const { cartReducer, dispatchCart } = useContext(CartContext);
     let showMenuResponsive = (e) => {
         e.preventDefault()
@@ -27,6 +27,14 @@ const NavBarCustom = () => {
         history.push('/search?q=' + cartReducer.search);
     }
 
+    useEffect(() => {
+        let totalItemsCart = cartReducer.cart.reduce((total, curVal) => {
+            return total + Number(curVal.quantity)
+        }, 0)
+        setTotalItems(totalItemsCart)
+    }, [cartReducer.cart])
+    
+
     return (
         <header className={classes.header}>
             <Link to='/home'>
@@ -42,10 +50,13 @@ const NavBarCustom = () => {
                 <NavLink to="/products" activeClassName={classes.active}>
                     <i className='fa fa-list-alt' /> Product List
                 </NavLink>
-                <NavLink to="#C"><i className='fa fa-shopping-cart' /> Cart</NavLink>
+                <NavLink to="/cart" activeClassName={classes.active}>
+                    <i className='fa fa-shopping-cart' />
+                    {`Cart ${totalItems === 0 ? '' : totalItems}`}
+                </NavLink>
                 <form className={classes['search-form']} onSubmit={onSubmit} >
                     <input type="text" name="search" id='search-box' 
-                        placeholder="Search" onChange={onChangeSearch}/>
+                        placeholder="Search" onChange={onChangeSearch} value={cartReducer.search}/>
                     <button type='submit'>Search</button>
                 </form>
             </nav>

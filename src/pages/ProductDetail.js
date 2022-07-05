@@ -1,14 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom"
+import { useProductDetail } from "../utils/hooks/useProductDetail";
+
 import { LoadingState } from "../components/styles/LoadingState.styles";
 import { TextAlignItems } from "../components/styles/SideBar.styles";
-import { useProductDetail } from "../utils/hooks/useProductDetail";
 import GalleryProduct from "../components/products/GalleryProduct";
-import {DivWrapper, ProductDivRight, ProductName,ProductPrice, 
+import {
+    DivWrapper, ProductDivRight, ProductName, ProductPrice,
     InputQuantity, AddToCartButton, ProductCategory,
-    DescriptionProduct,SpecificationsList,SpecificationWrapper,
+    DescriptionProduct, SpecificationsList, SpecificationWrapper,
 } from "../components/styles/GalleryProduct.styles";
-import { useContext } from "react";
 import { CartContext } from "../components/store/CartContext";
 
 const ProductDetail = () => {
@@ -16,15 +17,47 @@ const ProductDetail = () => {
     const { productId } = params
     const { dataProduct, isLoadingProduct } = useProductDetail(productId)
     const [isLoading, setIsLoading] = useState(true);
-    const { dispatchCart } = useContext(CartContext);
-    
+    const { cartReducer, dispatchCart } = useContext(CartContext);
+    const [inputQuantity, setInputQuantity] = useState();
+
     const addToCart = () => {
-        dispatchCart({type:'ADD', payload: dataProduct.results[0]})
+        if (inputQuantity === '') {
+            alert('Please, select a quantity')
+        } else {
+            const indexExistingProduct = cartReducer.cart.findIndex((item) =>
+                item.id === productId
+            )
+            if (indexExistingProduct === -1) {
+                const newProduct = [dataProduct.results[0], Number(inputQuantity)]
+                dispatchCart({ type: 'ADD', payload: newProduct })
+            } else {
+                const newQuantity = Number(cartReducer.cart[indexExistingProduct].quantity) +
+                    Number(inputQuantity)
+                if (newQuantity > cartReducer.cart[indexExistingProduct].stockProduct) {
+                    alert('You are exceeding the maximum stock of ' +
+                        cartReducer.cart[indexExistingProduct].stockProduct)
+                } else {
+                    const productSelected = { id: productId }
+                    const newProduct = [productSelected, newQuantity]
+                    dispatchCart({ type: 'ADD', payload: newProduct })
+                }
+            }
+        }
+    }
+    const onChangeQuatity = (event) => {
+        if (event.target.value < 0) {
+            setInputQuantity('1');
+        } else if (event.target.value <= dataProduct.results[0].data.stock) {
+            setInputQuantity(event.target.value);
+        } else {
+            setInputQuantity(dataProduct.results[0].data.stock)
+        }
     }
 
     useEffect(() => {
         if (!isLoadingProduct) {
             setIsLoading(false)
+            setInputQuantity(dataProduct.results[0].data.stock > 0 ? '1' : '0')
         }
     }, [isLoadingProduct])
 
@@ -49,8 +82,13 @@ const ProductDetail = () => {
                             <p key={tag}>{tag} &nbsp;</p>
                         ))}</ProductCategory>
                         <ProductPrice>{`$ ${dataProduct.results[0].data.price}`}</ProductPrice>
-                        <InputQuantity type='number' min='1' max='10' defaultValue='1' />
-                        <AddToCartButton onClick={addToCart}>Add to Cart</AddToCartButton>
+                        <InputQuantity type='number' value={inputQuantity}
+                            min={dataProduct.results[0].data.stock > 0 ? '1' : '0'}
+                            max={dataProduct.results[0].data.stock}
+                            onChange={onChangeQuatity} />
+                        {dataProduct.results[0].data.stock > 0 && <AddToCartButton
+                            onClick={addToCart}>Add to Cart
+                        </AddToCartButton>}
                         <DescriptionProduct>
                             {dataProduct.results[0].data.short_description}
                         </DescriptionProduct>
@@ -67,7 +105,6 @@ const ProductDetail = () => {
                     </ProductDivRight>
                 </>
             )}
-
         </>
     )
 }

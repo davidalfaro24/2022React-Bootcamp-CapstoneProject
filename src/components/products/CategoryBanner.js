@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import PropTypes from 'prop-types';
 import Carousels from "react-elastic-carousel";
 import { H1Heading, H1Span, CardCarousel, Caption, Image} from '../styles/CategoryBanner.styles'
 
@@ -27,6 +28,10 @@ const CategoryBanner = ({ data }) => {
             </Carousels>
         </Fragment>
     )
+}
+
+CategoryBanner.propTypes = {
+    data: PropTypes.object,
 }
 
 export default CategoryBanner

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Carousels from "react-elastic-carousel";
 import { CardSimpleCarousel } from "../styles/CategoryBanner.styles";
 import { ImageGallery } from "../styles/GalleryProduct.styles";
@@ -13,6 +14,10 @@ const GalleryProduct = ({ data }) => {
             ))}
         </Carousels>
     )
+}
+
+GalleryProduct.propTypes = {
+    data: PropTypes.object,
 }
 
 export default GalleryProduct

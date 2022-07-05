@@ -50,8 +50,6 @@ const ProductCategory = styledComponents.span`
 const SpecificationsList = styledComponents.li`
     font-size:1rem;
     text-align: justify;
-    //width: 90%;
-    //padding: 1rem 0rem;
 `
 const InputQuantity = styledComponents.input`
     cursor:pointer;

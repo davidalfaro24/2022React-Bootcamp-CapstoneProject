@@ -1,14 +1,19 @@
-import { useFeaturedBanners } from './utils/hooks/useFeaturedBanners';
-import NavBarCustom from './components/layout/NavBarCustom';
-import HomePage from './pages/HomePage';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Fragment, useState, useEffect } from 'react';
-import Footer from './components/layout/Footer';
-import AllProducts from './pages/AllProducts';
+import { useFeaturedBanners } from './utils/hooks/useFeaturedBanners';
 import { useCategoryBanner } from './utils/hooks/useCategoryBanner';
 import { useFeaturedProducts } from './utils/hooks/useFeaturedProducts';
+
+import HomePage from './pages/HomePage';
 import ProductDetail from './pages/ProductDetail';
 import SearchPage from './pages/SearchPage';
+import CartPage from './pages/CartPage';
+import CheckOutPage from './pages/CheckOutPage';
+import AllProducts from './pages/AllProducts';
+
+import NavBarCustom from './components/layout/NavBarCustom';
+import Footer from './components/layout/Footer';
+import ItemNotFound from './components/layout/ItemNotFound';
 
 function App() {
   const [isLoadingPage, setIsLoadingPage] = useState(true);
@@ -42,6 +47,15 @@ function App() {
         </Route>
         <Route path='/search'>
           <SearchPage />
+        </Route>
+        <Route path='/cart'>
+          <CartPage />
+        </Route>
+        <Route path='/checkout'>
+          <CheckOutPage />
+        </Route>
+        <Route path='*'>
+          <ItemNotFound />
         </Route>
       </Switch>
       <Footer/>
