@@ -1,14 +1,13 @@
+import { useEffect, useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
+import { useCategoryBanner } from "../utils/hooks/useCategoryBanner";
+import { useProductsFiltered } from "../utils/hooks/useProductsFiltered";
 
 import SideBarFilter from "../components/layout/SideBarFilter"
 import FeaturedProducts from "../components/products/FeaturedProducts"
-import { useEffect, useState } from "react";
 import Pagination from "../components/layout/Pagination";
 import { TextAlignItems } from "../components/styles/SideBar.styles";
 import { LoadingState } from "../components/styles/LoadingState.styles";
-import { useCategoryBanner } from "../utils/hooks/useCategoryBanner";
-import { useProductsFiltered } from "../utils/hooks/useProductsFiltered";
-import { useHistory, useLocation } from "react-router-dom";
-
 
 const AllProducts = () => {
     const history = useHistory();

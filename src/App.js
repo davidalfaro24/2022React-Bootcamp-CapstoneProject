@@ -9,6 +9,9 @@ import { useCategoryBanner } from './utils/hooks/useCategoryBanner';
 import { useFeaturedProducts } from './utils/hooks/useFeaturedProducts';
 import ProductDetail from './pages/ProductDetail';
 import SearchPage from './pages/SearchPage';
+import CartPage from './pages/CartPage';
+import CheckOutPage from './pages/CheckOutPage';
+import ItemNotFound from './components/layout/ItemNotFound';
 
 function App() {
   const [isLoadingPage, setIsLoadingPage] = useState(true);
@@ -42,6 +45,15 @@ function App() {
         </Route>
         <Route path='/search'>
           <SearchPage />
+        </Route>
+        <Route path='/cart'>
+          <CartPage />
+        </Route>
+        <Route path='/checkout'>
+          <CheckOutPage />
+        </Route>
+        <Route path='*'>
+          <ItemNotFound />
         </Route>
       </Switch>
       <Footer/>

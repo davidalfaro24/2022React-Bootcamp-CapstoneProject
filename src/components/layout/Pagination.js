@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import PropTypes from 'prop-types'
 import { PaginationContainer, PaginationLink, PaginationLinkActive } from "../styles/SideBar.styles"
 
 const Pagination = ({ data, setCurrentPage, currentPage, resultSize }) => {
@@ -52,6 +52,13 @@ const Pagination = ({ data, setCurrentPage, currentPage, resultSize }) => {
             <PaginationLink onClick={nextPage}>&raquo;</PaginationLink>
         </PaginationContainer>
     )
+}
+
+Pagination.propTypes = {
+    data: PropTypes.object,
+    setCurrentPage: PropTypes.func, 
+    currentPage: PropTypes.number, 
+    resultSize: PropTypes.number,
 }
 
 export default Pagination

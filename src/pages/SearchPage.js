@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { useSearch } from "../utils/hooks/useSearch";
+
 import ItemNotFound from "../components/layout/ItemNotFound";
 import Pagination from "../components/layout/Pagination";
 import ProductsSearched from "../components/products/ProductsSearched";
 import { LoadingState } from "../components/styles/LoadingState.styles";
 import { TextAlignItems } from "../components/styles/SideBar.styles";
-import { useSearch } from "../utils/hooks/useSearch";
 
 const SearchPage = () => {
     const location = useLocation();
